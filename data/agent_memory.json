@@ -1,0 +1,25 @@
+{
+    "goal": "1. A majestic horse galloping in a field",
+    "memory": [
+        {
+            "index": 267,
+            "score": 0.2900390625
+        },
+        {
+            "index": 531,
+            "score": 0.304443359375
+        },
+        {
+            "index": 673,
+            "score": 0.2900390625
+        },
+        {
+            "index": 688,
+            "score": 0.310791015625
+        },
+        {
+            "index": 951,
+            "score": 0.297607421875
+        }
+    ]
+}
