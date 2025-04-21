@@ -2,10 +2,10 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-# .env einlesen
+
 load_dotenv()
 
-# GPT-Client erzeugen
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def suggest_new_goals(failed_goal):
