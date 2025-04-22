@@ -10,7 +10,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32")
 model = model.to(device)
 
-# Ziel
+
 goal = "a police car at night"
 goal_vec = embed_text(goal, model, device)
 
@@ -18,29 +18,46 @@ goal_vec = embed_text(goal, model, device)
 transform = transforms.Compose([transforms.ToPILImage()])
 dataset = CIFAR10(root="data/", download=True)
 trys = 0
-# Agentenlauf
+
 agent_memory = []
+log = []
+original_goal = goal
+log_type = "original"
+
 
 while len(agent_memory) < 5 and trys < 5:
     print(f"\n🎯 Attempt {trys+1}/5 – Searching for goal: '{goal}'")
     goal_vec = embed_text(goal, model, device)
     agent_memory = []
-
-    for i in range(1000):
+    
+    for i in range(5000):
         img, _ = dataset[i]
         image_vec = embed_image(img, model, preprocess, device)
         score = cosine_similarity(image_vec, goal_vec)
 
-        if score > 0.29:
+        if score > 0.28:
             agent_memory.append({"index": i, "score": float(score)})
 
         if i % 100 == 0:
-            print(f"Checked image {i}/1000")
+            print(f"Checked image {i}/5000")
+    if agent_memory:
+        avg_score = sum(e["score"] for e in agent_memory) / len(agent_memory)
+    else:
+        avg_score =  0.0
+
+    log_entry = {
+    "goal": goal,
+    "n_hits": len(agent_memory),
+    "avg_score": round(avg_score, 3),
+    "comment": "",  # ← optional
+    "source" : log_type 
+    }             
+    log.append(log_entry)   
 
     if len(agent_memory) < 5:
         trys += 1
         print(f"\n⚠️ Too few matches for goal '{goal}' – asking GPT for a new goal...")
-        alternatives = suggest_new_goals(goal)
+        alternatives = suggest_new_goals(original_goal)
         print("🔁 GPT suggestions:")
         for alt in alternatives:
             print("→", alt)
@@ -49,6 +66,7 @@ while len(agent_memory) < 5 and trys < 5:
             print("❌ GPT failed to suggest a new goal. Stopping.")
             break
         goal = new_goal
+        log_type = "gpt"
     else:
         print(f"\n✅ Found {len(agent_memory)} relevant images for goal '{goal}'")
 
@@ -63,3 +81,6 @@ while len(agent_memory) < 5 and trys < 5:
 
 if trys >= 5:
     print("\n🛑 Stopped: Too many failed attempts. Consider changing the starting goal.")
+
+with open("data/goal_trace.json", "w", encoding="utf-8") as f:
+    json.dump(log, f, indent=4)

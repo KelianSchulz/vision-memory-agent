@@ -10,9 +10,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def suggest_new_goals(failed_goal):
     prompt = f"""
-        My goal '{failed_goal}' failed to retrieve relevant images using CLIP on the CIFAR-10 dataset.
-        CIFAR-10 includes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck.
-        Give me a short, visually clear goal phrase related to these classes.
+        Failed to find images for: "{failed_goal}" using CLIP on CIFAR-10.
+        Give < short, direct goal phrase likely to match CIFAR-10 classes:
+        airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck.
+        No quotes, no explanation.
         """
 
 
