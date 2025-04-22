@@ -61,10 +61,13 @@ This project explores **semantic self-correction** in agents:
 ## 📄 See also
 
 👉 [`agent_architecture.md`](agent_architecture.md) – for full explanation of the reflection loop and system components.
-
+   
 ---
 
 ## ✍️ Author
 
 Built by **Kelian Schulz** – as part of an independent research journey into  
 interpretable, reflective, and goal-driven AI agents.
+
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/KelianSchulz/vision-memory-agent)
