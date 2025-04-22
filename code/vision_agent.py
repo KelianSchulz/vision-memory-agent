@@ -10,9 +10,10 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32")
 model = model.to(device)
 
-
-goal = "a police car at night"
+tested_goals = set()
+goal = "a fire truck in the rain"
 goal_vec = embed_text(goal, model, device)
+tested_goals.add(goal.strip().lower())
 
 # Dataset
 transform = transforms.Compose([transforms.ToPILImage()])
@@ -23,9 +24,9 @@ agent_memory = []
 log = []
 original_goal = goal
 log_type = "original"
+required_hits = 5
 
-
-while len(agent_memory) < 5 and trys < 5:
+while len(agent_memory) < required_hits and trys < 5:
     print(f"\n🎯 Attempt {trys+1}/5 – Searching for goal: '{goal}'")
     goal_vec = embed_text(goal, model, device)
     agent_memory = []
@@ -54,19 +55,35 @@ while len(agent_memory) < 5 and trys < 5:
     }             
     log.append(log_entry)   
 
-    if len(agent_memory) < 5:
+    if len(agent_memory) < required_hits:
         trys += 1
+        
+        if trys >= 5:
+            print("\n🛑 Stopped: Too many failed attempts. Consider changing the starting goal.")
+            break
         print(f"\n⚠️ Too few matches for goal '{goal}' – asking GPT for a new goal...")
-        alternatives = suggest_new_goals(original_goal)
+        alternatives = suggest_new_goals(original_goal, list(tested_goals))
         print("🔁 GPT suggestions:")
         for alt in alternatives:
             print("→", alt)
-        new_goal = alternatives[0] if alternatives else None
-        if not new_goal:
-            print("❌ GPT failed to suggest a new goal. Stopping.")
+        new_goal = None
+        for alt in alternatives:
+            clean_alt = alt.strip().lower()
+            if clean_alt in tested_goals:
+                print(f"⛔ Already tested: {alt}")
+                continue
+            tested_goals.add(clean_alt)
+            new_goal = alt
             break
+
+        if not new_goal:
+            print("❌ All GPT suggestions already tested. Stopping.")
+            break
+
         goal = new_goal
         log_type = "gpt"
+
+
     else:
         print(f"\n✅ Found {len(agent_memory)} relevant images for goal '{goal}'")
 
@@ -79,8 +96,7 @@ while len(agent_memory) < 5 and trys < 5:
 
         break
 
-if trys >= 5:
-    print("\n🛑 Stopped: Too many failed attempts. Consider changing the starting goal.")
+
 
 with open("data/goal_trace.json", "w", encoding="utf-8") as f:
     json.dump(log, f, indent=4)

@@ -1,25 +1,49 @@
 {
-    "goal": "1. A majestic horse galloping in a field",
+    "goal": "rainy fire engine",
     "memory": [
         {
-            "index": 267,
-            "score": 0.2900390625
+            "index": 208,
+            "score": 0.284423828125
         },
         {
-            "index": 531,
-            "score": 0.304443359375
+            "index": 357,
+            "score": 0.286376953125
         },
         {
-            "index": 673,
-            "score": 0.2900390625
+            "index": 1028,
+            "score": 0.28515625
         },
         {
-            "index": 688,
-            "score": 0.310791015625
+            "index": 1672,
+            "score": 0.282958984375
         },
         {
-            "index": 951,
-            "score": 0.297607421875
+            "index": 1682,
+            "score": 0.2802734375
+        },
+        {
+            "index": 1765,
+            "score": 0.287109375
+        },
+        {
+            "index": 1827,
+            "score": 0.300537109375
+        },
+        {
+            "index": 2477,
+            "score": 0.29052734375
+        },
+        {
+            "index": 2706,
+            "score": 0.280517578125
+        },
+        {
+            "index": 3409,
+            "score": 0.28857421875
+        },
+        {
+            "index": 3463,
+            "score": 0.282958984375
         }
     ]
 }

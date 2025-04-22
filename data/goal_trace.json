@@ -1,36 +1,15 @@
 [
     {
-        "goal": "a police car at night",
+        "goal": "a fire truck in the rain",
         "n_hits": 0,
         "avg_score": 0.0,
         "comment": "",
         "source": "original"
     },
     {
-        "goal": "police car at night",
-        "n_hits": 0,
-        "avg_score": 0.0,
-        "comment": "",
-        "source": "gpt"
-    },
-    {
-        "goal": "police car",
-        "n_hits": 4,
+        "goal": "rainy fire engine",
+        "n_hits": 11,
         "avg_score": 0.286,
-        "comment": "",
-        "source": "gpt"
-    },
-    {
-        "goal": "police car night",
-        "n_hits": 0,
-        "avg_score": 0.0,
-        "comment": "",
-        "source": "gpt"
-    },
-    {
-        "goal": "police car at night",
-        "n_hits": 0,
-        "avg_score": 0.0,
         "comment": "",
         "source": "gpt"
     }

@@ -4,27 +4,28 @@
 
 ## 1. Overview
 
-The Vision Memory Agent is an AI system that:
+The Vision Memory Agent is a self-correcting AI system that:
 
 - Selects relevant images based on a semantic goal
-- Builds a memory of relevant items
-- Reflects when it fails
-- Adapts its goal through natural language
-- Tries again until it succeeds or gives up
+- Uses CLIP to measure image-text similarity
+- Reflects when it fails to find enough relevant results
+- Adapts its goal using GPT-based natural language feedback
+- Retries with new goals until success or termination
 
 ---
 
 ## 2. Motivation
 
-In most AI systems, failure is silent.  
-This agent **notices** when it fails and **responds** by adjusting its internal goal.  
-It uses **language (GPT)** to reinterpret its objective and tries again, making it more human-like in how it learns.
+Most AI systems fail silently.  
+This agent is different: it **recognizes failure** and **responds linguistically**.  
+By leveraging GPT to reframe its own search goals, the system develops a form of **semantic self-correction** —  
+a step toward more human-like, reflective intelligence.
 
 ---
 
 ## 3. Dataset
 
-Uses **CIFAR-10** (10 object classes):
+Uses **CIFAR-10**, containing the following object classes:
 - airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck
 
 ---
@@ -43,12 +44,12 @@ Uses **CIFAR-10** (10 object classes):
      │ images with CLIP   │
      └──────┬─────────────┘
             ↓
-  [success] ≥ 5 results? ─────────┐
-            │ no                 │ yes
-            ↓                    ↓
+  [success] ≥ required? ─────────┐
+            │ no                │ yes
+            ↓                   ↓
 ┌──────────────────────┐   ┌───────────────┐
 │ Ask GPT for better   │   │ Save memory   │
-│ goal alternatives    │   └───────────────┘
+│ goal (1 suggestion)  │   └───────────────┘
 └─────┬────────────────┘
       ↓
   [retry up to 5 times]
@@ -58,37 +59,40 @@ Uses **CIFAR-10** (10 object classes):
 
 ## 5. Core Components
 
-| Module             | Role                                                |
-|--------------------|-----------------------------------------------------|
-| `vision_agent.py`  | Main loop: search, evaluate, reflect                |
-| `embedding.py`     | CLIP-based image and text encoding                  |
-| `gpt_helpers.py`   | Handles GPT goal reformulation                      |
-| `visualize_memory.py` | Displays final selected images and scores        |
-| `agent_memory.json`| Stores goal + final selection                       |
+| Module               | Role                                                |
+|----------------------|-----------------------------------------------------|
+| `vision_agent.py`    | Main loop: search, evaluate, reflect                |
+| `embedding.py`       | CLIP-based image and text encoding                  |
+| `gpt_helpers.py`     | Handles GPT goal reformulation                      |
+| `visualize_memory.py`| Displays final selected images and scores           |
+| `agent_memory.json`  | Stores the final goal and matching image indices    |
+| `goal_trace.json`    | Logs each goal attempt, hits, and origin            |
 
 ---
 
 ## 6. GPT Prompt (Reflection)
 
 ```text
-My goal '{failed_goal}' failed to retrieve relevant images using CLIP on the CIFAR-10 dataset.
-CIFAR-10 includes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck.
-Give me 3 short, visually clear goal phrases related to these classes.
+Original: {original_goal}
+Tried: {list of tested goals}
+Suggest 1 short visual phrase (max 4 words) close in meaning.
+Use CIFAR-10 terms. Avoid tried. No quotes. Just the phrase.
 ```
 
 ---
 
 ## 7. Future Work
 
-- Multi-goal reasoning (choose best of 3)
-- Score-based memory explanation
-- Visual-semantic drift tracking
-- Reflexive agents in language and text
+- Multi-goal suggestion with scoring
+- Visual reasoning feedback per match
+- Goal path visualization and drift tracking
+- Extension to other modalities (text, audio)
+- Reuse of failed attempts in future sessions
 
 ---
 
 ## 8. Author
 
 Designed and built by **Kelian Schulz**  
-As part of an independent research path exploring  
-**self-guided, reflective AI systems**.
+As part of an independent research journey toward  
+**self-guided, reflective, human-aligned AI systems**.
