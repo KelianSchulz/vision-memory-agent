@@ -64,8 +64,8 @@ This project explores **semantic self-correction** in agents:
 
 ## 📝 Paper
 
-📄 [Read the paper (PDF)](./paper.pdf)  
-*A reflection on semantic goal correction in vision-language agents.*
+https://github.com/KelianSchulz/vision-memory-agent/raw/main/paper.pdf
+
 
 ---
 
