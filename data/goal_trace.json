@@ -7,6 +7,27 @@
         "source": "original"
     },
     {
+        "goal": "rainy fire truck",
+        "n_hits": 2,
+        "avg_score": 0.29,
+        "comment": "",
+        "source": "gpt"
+    },
+    {
+        "goal": "wet fire truck",
+        "n_hits": 1,
+        "avg_score": 0.287,
+        "comment": "",
+        "source": "gpt"
+    },
+    {
+        "goal": "wet emergency vehicle",
+        "n_hits": 0,
+        "avg_score": 0.0,
+        "comment": "",
+        "source": "gpt"
+    },
+    {
         "goal": "rainy fire engine",
         "n_hits": 11,
         "avg_score": 0.286,
