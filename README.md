@@ -61,7 +61,12 @@ This project explores **semantic self-correction** in agents:
 ## 📄 See also
 
 👉 [`agent_architecture.md`](agent_architecture.md) – for full explanation of the reflection loop and system components.
-   
+
+## 📝 Paper
+
+📄 [Read the paper (PDF)](./paper.pdf)  
+*A reflection on semantic goal correction in vision-language agents.*
+
 ---
 
 ## ✍️ Author
